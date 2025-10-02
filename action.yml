@@ -32,14 +32,14 @@ inputs:
     default: '${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>'
   signoff:
     description: 'Add `Signed-off-by` line by the committer at the end of the commit log message.'
-    default: false
+    default: 'false'
   branch:
     description: 'The pull request branch name.'
     default: 'create-pull-request/patch'
   delete-branch:
     description: >
       Delete the `branch` if it doesn't have an active pull request associated with it.
-    default: false
+    default: 'false'
   branch-suffix:
     description: 'The branch suffix type when using the alternative branching strategy.'
   base:
@@ -53,7 +53,7 @@ inputs:
       The pull request will be created to merge the fork's branch into the parent's base.
   sign-commits:
     description: 'Sign commits as `github-actions[bot]` when using `GITHUB_TOKEN`, or your own bot when using GitHub App tokens.'
-    default: false
+    default: 'false'
   title:
     description: 'The title of the pull request.'
     default: 'Changes by create-pull-request action'
@@ -78,10 +78,14 @@ inputs:
     description: >
       Create a draft pull request.
       Valid values are `true` (only on create), `always-true` (on create and update), and `false`.
-    default: false
+    default: 'false'
   maintainer-can-modify:
     description: 'Indicates whether maintainers can modify the pull request.'
-    default: true
+    default: 'true'
+  github-server-url:
+    description: >
+      A comma-separated list of Gitea hostnames (e.g., 'gitea.example.com,gitea.company.org').
+      Required when using this action with Gitea instances.
 outputs:
   pull-request-number:
     description: 'The pull request number'

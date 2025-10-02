@@ -74,6 +74,7 @@ All inputs are **optional**. If not set, sensible defaults will be used.
 | `milestone` | The number of the milestone to associate this pull request with. | |
 | `draft` | Create a [draft pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests). Valid values are `true` (only on create), `always-true` (on create and update), and `false`.  | `false` |
 | `maintainer-can-modify` | Indicates whether [maintainers can modify](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) the pull request. | `true` |
+| `github-server-url` | A comma-separated list of Gitea hostnames (e.g., `gitea.example.com,gitea.company.org`). Required when using this action with Gitea instances. | |
 
 #### token
 
@@ -135,6 +136,26 @@ For self-hosted runners behind a corporate proxy set the `https_proxy` environme
         env:
           https_proxy: http://<proxy_address>:<port>
 ```
+
+#### Gitea support
+
+This action supports Gitea instances in addition to GitHub. To use with Gitea, specify the `github-server-url` input with your Gitea hostname.
+
+```yml
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITEA_TOKEN }}
+          github-server-url: gitea.example.com
+          title: "Feature: Add new functionality"
+          body: "This PR adds new functionality"
+```
+
+**Limitations when using Gitea:**
+- Draft pull requests are not supported
+- Reviewer assignment is not supported
+- Signed commits via API may fall back to standard Git push
+- Team reviewers are not supported
 
 ### Action outputs
 

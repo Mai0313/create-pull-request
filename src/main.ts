@@ -11,8 +11,29 @@ function getDraftInput(): {value: boolean; always: boolean} {
   }
 }
 
+// Set Gitea instances from environment variable or input
+function configureGiteaInstances() {
+  // First check if there's already an environment variable
+  if (!process.env.GITEA_INSTANCES) {
+    // If not, check if it was provided as input
+    const giteaInstancesInput = core.getInput('github-server-url')
+    if (giteaInstancesInput) {
+      core.info(
+        `Setting GITEA_INSTANCES environment variable to: ${giteaInstancesInput}`
+      )
+      process.env.GITEA_INSTANCES = giteaInstancesInput
+    }
+  }
+
+  if (process.env.GITEA_INSTANCES) {
+    core.info(`Configured Gitea instances: ${process.env.GITEA_INSTANCES}`)
+  }
+}
+
 async function run(): Promise<void> {
   try {
+    // Configure Gitea instances before anything else
+    configureGiteaInstances()
     const inputs: Inputs = {
       token: core.getInput('token'),
       branchToken: core.getInput('branch-token'),
